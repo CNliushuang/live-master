@@ -3,12 +3,12 @@
 		<div class="login_wrapper">
 			<div class="login_card">
 				<div class="card_header">
-					登录<span class="name">直播管理平台</span>
+					登录<span class="name">艺人管理平台</span>
 				</div>
 				<div class="card_form">
 					<div class="card_title">输入您的帐号、密码登录</div>
-					<el-input v-model="loginInfo.identify" placeholder="用户名/手机号" clearable></el-input>
-					<el-input v-model="loginInfo.password" placeholder="密码" type="password" clearable></el-input>
+					<el-input @keyup.enter.native="goLogin" :autofocus="true" v-model="loginInfo.identify" placeholder="用户名/手机号" clearable></el-input>
+					<el-input @keyup.enter.native="goLogin" v-model="loginInfo.password" placeholder="密码" type="password" clearable></el-input>
 					<el-button type="primary" @click="goLogin" :loading="locked">登录</el-button>
 				</div>
 			</div>
@@ -56,9 +56,16 @@
 					setTimeout(() => {
 						this.locked = false;
 					},5000)
-					this.login({identify:this.loginInfo.identify,password:this.loginInfo.password}).then(() => {
+					this.login({identify:this.loginInfo.identify,password:this.loginInfo.password}).then((resp) => {
+						if(resp.result == 0){
+							Link('/information')
+						}else{
+							this.$message({
+					          message: resp.msg || '登录失败，请检查网络连接',
+					          type: 'error'
+					        });
+						}
 						this.locked = false;
-						Link('/demo')
 					})
 				}
 				
@@ -111,12 +118,16 @@
 			    	}
 			    	/deep/ .el-input{
 			    		margin-bottom: 15px;
+			    		.el-input__inner{
+			    			height: 40px !important;
+			    		}
 			    	}
 			    	/deep/ .el-button{
 			    		display: block;
 			    		width: 100%;
 			    		margin: 0 auto;
 			    		font-size: 16px;
+			    		height: 40px;
 			    	}
 			    }
 		    }

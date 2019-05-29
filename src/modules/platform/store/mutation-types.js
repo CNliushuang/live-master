@@ -1,0 +1,7 @@
+
+export const INIT_PLATFROM_LIST = 'INIT_PLATFROM_LIST'//
+
+
+
+
+

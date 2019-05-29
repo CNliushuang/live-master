@@ -1,0 +1,11 @@
+export const INIT_PLATFROM_LIST = 'INIT_PLATFROM_LIST'//
+export const INIT_GROUP_LIST = 'INIT_GROUP_LIST'//
+export const INIT_AGENT_LIST = 'INIT_AGENT_LIST'//
+export const INIT_ACTOR_LIST = 'INIT_ACTOR_LIST'//
+
+
+
+
+
+
+

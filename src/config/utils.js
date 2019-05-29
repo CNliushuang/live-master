@@ -1,4 +1,4 @@
-// import Toast from '@/modules/widget/toast'
+import Toast from '@/modules/widget/toast'
 
 
 /*路由跳转*/
@@ -135,7 +135,7 @@ export const datePattern = (date, fmt) => {
 export const httpAgent = function(url, requestType, param, successCb,erroCb){
   let config = {
     method: requestType,
-    url: url
+    url: url,
   }
   if(requestType.toLowerCase() == 'get'){
     if(typeof(param) == 'string'){
@@ -150,18 +150,26 @@ export const httpAgent = function(url, requestType, param, successCb,erroCb){
   .then(function (resp) {
     const data = resp.data;
     if (data.result && data.result != 0) {
-      if(data.result == -10001){//token过期了
+      if(data.result == 12){//token过期了
         //tokenIsOverdue();
+        Link('/login');//跳转登录
       }else if(data.result == -10100){//强制升级客户端
         //mandatoryUpgrade();
       }else{
-        erroCb && erroCb(data);
+        if(erroCb){
+          erroCb && erroCb(data);
+        }else{
+          Toast({
+            content:data.msg || "报错了",
+            type:"error"
+          })
+        }
       }
     }else{
       successCb && successCb(data);
     }
   })
-  .catch(function (error) {
+  .catch(function (error,b,c) {
     console.log(error);
     if(erroCb){
       erroCb(error);
@@ -363,4 +371,36 @@ export const filterFilesSize = (size) => {//处理附件名字
   }
   return str;
 }
+
+
+
+
+
+export const getCurrentMonthFirst = (cur_date) => {
+ var date=new Date(cur_date);
+ date.setDate(1);
+ return date.getTime();
+}
+
+
+
+export const getCurrentMonthLast = (cur_date) =>{
+ var date=new Date(cur_date);
+ var currentMonth=date.getMonth();
+ var nextMonth=++currentMonth;
+ var nextMonthFirstDay=new Date(date.getFullYear(),nextMonth,1);
+ var oneDay=1000*60*60*24;
+ return new Date(nextMonthFirstDay-oneDay).getTime();
+}
+
+
+
+
+
+
+
+
+
+
+
 

@@ -1,6 +1,6 @@
 const config_server = {
-    server_api:"/ftask/api",
-    server_user:"/ftask/proxy"//ftask/proxy
+    server_api:"/api",
+    server_user:"/proxy"//ftask/proxy
 }
 
 global.config_server = config_server;
